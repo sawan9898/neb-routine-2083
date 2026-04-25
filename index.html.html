@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEB Routine 2083</title>
+
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card-bg: rgba(255, 255, 255, 0.06);
+            --blue: #3b82f6;
+            --green: #22c55e;
+            --orange: #f59e0b;
+            --gold: #fbbf24;
+            --red: #ef4444;
+            --purple: #a855f7;
+            --text: #e2e8f0;
+            --muted: #94a3b8;
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --glass: rgba(255, 255, 255, 0.06);
+            --radius-lg: 20px;
+            --radius-md: 14px;
+            --radius-sm: 10px;
+            --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.35);
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(160deg, #0b1120 0%, #0f172a 30%, #1a2254 70%, #0f172a 100%);
+            color: var(--text);
+            min-height: 100vh;
+            background-attachment: fixed;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: -30%;
+            left: -15%;
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            animation: floatOrb 18s ease-in-out infinite;
+        }
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: -25%;
+            right: -10%;
+            width: 55vw;
+            height: 55vw;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.07) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            animation: floatOrb 22s ease-in-out infinite reverse;
+        }
+        @keyframes floatOrb {
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+            25% {
+                transform: translate(4vw, -3vh) scale(1.08);
+            }
+            50% {
+                transform: translate(-2vw, 5vh) scale(0.94);
+            }
+            75% {
+                transform: translate(3vw, 2vh) scale(1.05);
+            }
+        }
+
+        header {
+            text-align: center;
+            padding: 18px 16px 10px;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: 0.4px;
+            position: relative;
+            z-index: 1;
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.95) 60%, transparent 100%);
+            padding-bottom: 20px;
+        }
+        header span {
+            background: linear-gradient(135deg, #e2e8f0, #fbbf24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .name-badge {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #fbbf24;
+            letter-spacing: 0.4px;
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            z-index: 2;
+            white-space: nowrap;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 8px 16px 12px;
+            position: relative;
+            z-index: 1;
+            justify-content: center;
+        }
+        .tab {
+            flex: 1 1 auto;
+            min-width: 70px;
+            text-align: center;
+            padding: 10px 6px;
+            background: var(--glass);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            letter-spacing: 0.3px;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            user-select: none;
+            position: relative;
+            z-index: 1;
+        }
+        .tab:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+        .tab.active {
+            background: var(--blue);
+            border-color: var(--blue);
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+            transform: translateY(-2px);
+        }
+
+        #timer {
+            text-align: center;
+            margin: 6px 16px 8px;
+            font-size: 17px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            color: #fbbf24;
+            position: relative;
+            z-index: 1;
+            min-height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        #timer .pulse-dot {
+            display: inline-block;
+            width: 9px;
+            height: 9px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: pulse 1.4s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+            }
+            50% {
+                box-shadow: 0 0 0 12px rgba(34, 197, 94, 0);
+            }
+        }
+
+        .progress-container {
+            height: 7px;
+            background: rgba(255, 255, 255, 0.08);
+            margin: 10px 16px 8px;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4);
+        }
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #22c55e, #4ade80, #34d399);
+            width: 0%;
+            transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 20px;
+            box-shadow: 0 0 12px rgba(34, 197, 94, 0.5);
+            position: relative;
+        }
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 20px;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.35);
+            border-radius: 20px;
+        }
+
+        .countdown-progress {
+            height: 8px;
+            background: rgba(0, 0, 0, 0.4);
+            margin: 0 16px 12px;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+            box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.6);
+        }
+        .countdown-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #ef4444, #f87171);
+            width: 100%;
+            transition: width 0.9s linear;
+            border-radius: 20px;
+            box-shadow: 0 0 16px rgba(239, 68, 68, 0.7);
+            position: relative;
+        }
+        .countdown-bar.urgent {
+            background: linear-gradient(90deg, #b91c1c, #ef4444);
+            box-shadow: 0 0 22px rgba(239, 68, 68, 0.9);
+            animation: redPulse 0.8s ease-in-out infinite;
+        }
+        @keyframes redPulse {
+            0%,
+            100% {
+                box-shadow: 0 0 18px rgba(239, 68, 68, 0.7);
+            }
+            50% {
+                box-shadow: 0 0 34px rgba(239, 68, 68, 1);
+            }
+        }
+
+        #content {
+            position: relative;
+            z-index: 1;
+            padding: 0 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .card {
+            margin: 0;
+            padding: 15px 16px;
+            border-radius: var(--radius-md);
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            transition: var(--transition);
+            border: 2px solid var(--border-subtle);
+            font-weight: 500;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: 0.3px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-card);
+        }
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        .card .serial {
+            color: #fbbf24;
+            font-weight: 700;
+            font-size: 15px;
+            min-width: 24px;
+            text-align: center;
+            background: rgba(251, 191, 36, 0.15);
+            border-radius: 6px;
+            padding: 2px 6px;
+            flex-shrink: 0;
+        }
+        .card .emoji {
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+        .card.next {
+            border-color: var(--green) !important;
+            box-shadow: 0 0 24px rgba(34, 197, 94, 0.25);
+            background: rgba(34, 197, 94, 0.09);
+        }
+        .card.next::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--green);
+            border-radius: 0 8px 8px 0;
+        }
+        .card.today {
+            border-color: var(--orange) !important;
+            box-shadow: 0 0 28px rgba(245, 158, 11, 0.3);
+            background: rgba(245, 158, 11, 0.1);
+            animation: todayGlow 2.5s ease-in-out infinite;
+        }
+        .card.today::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--orange);
+            border-radius: 0 8px 8px 0;
+            animation: todayGlowBar 2.5s ease-in-out infinite;
+        }
+        @keyframes todayGlow {
+            0%,
+            100% {
+                box-shadow: 0 0 28px rgba(245, 158, 11, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 44px rgba(245, 158, 11, 0.55);
+            }
+        }
+        @keyframes todayGlowBar {
+            0%,
+            100% {
+                box-shadow: 0 0 8px rgba(245, 158, 11, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 18px rgba(245, 158, 11, 0.9);
+            }
+        }
+        .card.past {
+            opacity: 0.55;
+            border-color: rgba(255, 255, 255, 0.04);
+        }
+        .card.past .emoji {
+            opacity: 0.6;
+        }
+        .card.holiday-card {
+            border-color: rgba(251, 191, 36, 0.4) !important;
+            background: rgba(251, 191, 36, 0.07);
+            border-style: dashed;
+        }
+        .card.holiday-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--gold);
+            border-radius: 0 8px 8px 0;
+            opacity: 0.7;
+        }
+        .card.holiday-card .holiday-badge {
+            background: rgba(251, 191, 36, 0.2);
+            color: #fbbf24;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+            flex-shrink: 0;
+        }
+        .date-day {
+            margin-left: auto;
+            font-size: 13px;
+            color: #94a3b8;
+            flex-shrink: 0;
+            text-align: right;
+        }
+        .date-day .day {
+            font-weight: 600;
+            color: #cbd5e1;
+        }
+
+        .tools {
+            position: relative;
+            z-index: 1;
+            padding: 10px 14px 30px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .tools-panel {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: var(--radius-lg);
+            padding: 18px 15px;
+            border: 1px solid var(--border-subtle);
+            box-shadow: var(--shadow-card);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        .tools-panel h3 {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--muted);
+            margin: 0;
+            font-weight: 600;
+        }
+        .sw-main-display {
+            font-size: 36px;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+            font-family: 'SF Mono', 'Cascadia Code', 'Consolas', 'Segoe UI Mono', monospace;
+            letter-spacing: 2px;
+            color: #fff;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.25);
+            background: rgba(0, 0, 0, 0.35);
+            padding: 10px 18px;
+            border-radius: var(--radius-md);
+            min-width: 170px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .sw-circles {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .sw-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.4);
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            transition: var(--transition);
+            position: relative;
+        }
+        .sw-circle .val {
+            font-size: 19px;
+            font-variant-numeric: tabular-nums;
+            font-family: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+            line-height: 1;
+            color: #fff;
+        }
+        .sw-circle .lbl {
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--muted);
+            margin-top: 1px;
+        }
+        .sw-circle.active-circle {
+            border-color: var(--green);
+            box-shadow: 0 0 16px rgba(34, 197, 94, 0.5);
+            animation: circlePulse 1s ease-in-out infinite;
+        }
+        @keyframes circlePulse {
+            0%,
+            100% {
+                box-shadow: 0 0 16px rgba(34, 197, 94, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 28px rgba(34, 197, 94, 0.8);
+            }
+        }
+        .sw-btns {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .sw-btns button {
+            padding: 8px 14px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            transition: var(--transition);
+            text-transform: uppercase;
+        }
+        .btn-start {
+            background: #22c55e;
+            color: #000;
+        }
+        .btn-start:hover {
+            background: #16a34a;
+            box-shadow: 0 4px 18px rgba(34, 197, 94, 0.5);
+            transform: translateY(-2px);
+        }
+        .btn-pause {
+            background: #f59e0b;
+            color: #000;
+        }
+        .btn-pause:hover {
+            background: #d97706;
+            box-shadow: 0 4px 18px rgba(245, 158, 11, 0.5);
+            transform: translateY(-2px);
+        }
+        .btn-reset {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+        .btn-reset:hover {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 18px rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+        .timer-input-row {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .timer-input-row input {
+            width: 60px;
+            padding: 9px 6px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.35);
+            color: #fff;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: var(--transition);
+        }
+        .timer-input-row input:focus {
+            outline: none;
+            border-color: var(--purple);
+            box-shadow: 0 0 14px rgba(168, 85, 247, 0.4);
+        }
+        .timer-input-row input::placeholder {
+            color: rgba(255, 255, 255, 0.35);
+        }
+        .btn-timer {
+            background: #a855f7;
+            color: #fff;
+            padding: 9px 16px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            transition: var(--transition);
+            text-transform: uppercase;
+        }
+        .btn-timer:hover {
+            background: #9333ea;
+            box-shadow: 0 4px 18px rgba(168, 85, 247, 0.5);
+            transform: translateY(-2px);
+        }
+        #customTimer {
+            font-size: 22px;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+            font-family: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+            letter-spacing: 1.5px;
+            color: #fbbf24;
+            min-height: 30px;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            .tools {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+            .sw-main-display {
+                font-size: 28px;
+                padding: 8px 14px;
+                min-width: 140px;
+            }
+            .sw-circle {
+                width: 50px;
+                height: 50px;
+            }
+            .sw-circle .val {
+                font-size: 16px;
+            }
+            .sw-circle .lbl {
+                font-size: 8px;
+            }
+            header {
+                font-size: 21px;
+            }
+            .name-badge {
+                font-size: 11px;
+                padding: 4px 10px;
+            }
+            .tab {
+                font-size: 13px;
+                padding: 8px 4px;
+            }
+        }
+        @media (min-width: 900px) {
+            #content {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+                max-width: 800px;
+                margin: 0 auto;
+            }
+            .tools {
+                max-width: 800px;
+                margin: 0 auto;
+                grid-template-columns: 1fr 1fr;
+                gap: 16px;
+            }
+            .tabs {
+                max-width: 600px;
+                margin: 0 auto;
+            }
+            #timer {
+                max-width: 500px;
+                margin: 6px auto 8px;
+            }
+            .progress-container,
+            .countdown-progress {
+                max-width: 600px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="name-badge">Sawan +2 Student</div>
+        <span>📚 NEB Routine 2083</span>
+    </header>
+
+    <div class="tabs">
+        <div class="tab active" onclick="switchTab('science',event)">🔬 Science</div>
+        <div class="tab" onclick="switchTab('management',event)">💼 Management</div>
+        <div class="tab" onclick="switchTab('law',event)">⚖️ Law</div>
+        <div class="tab" onclick="switchTab('education',event)">🎓 Education</div>
+    </div>
+
+    <div id="timer"><span class="pulse-dot"></span> <span id="timerText">Loading...</span></div>
+
+    <div class="progress-container">
+        <div id="progressBar" class="progress-bar"></div>
+    </div>
+
+    <div class="countdown-progress">
+        <div id="countdownBar" class="countdown-bar"></div>
+    </div>
+
+    <div id="content"></div>
+
+    <!-- TOOLS -->
+    <div class="tools">
+        <div class="tools-panel" id="stopwatchPanel">
+            <h3>⏱ Stopwatch</h3>
+            <div class="sw-main-display" id="swDisplay">00:00:00.00</div>
+            <div class="sw-circles">
+                <div class="sw-circle" id="swHrCircle">
+                    <span class="val" id="swHr">00</span>
+                    <span class="lbl">hr</span>
+                </div>
+                <div class="sw-circle" id="swMinCircle">
+                    <span class="val" id="swMin">00</span>
+                    <span class="lbl">min</span>
+                </div>
+                <div class="sw-circle" id="swSecCircle">
+                    <span class="val" id="swSec">00</span>
+                    <span class="lbl">sec</span>
+                </div>
+            </div>
+            <div class="sw-btns">
+                <button class="btn-start" onclick="startSW()">▶ Start</button>
+                <button class="btn-pause" onclick="pauseSW()">⏸ Pause</button>
+                <button class="btn-reset" onclick="resetSW()">↺ Reset</button>
+            </div>
+        </div>
+
+        <div class="tools-panel" id="timerPanel">
+            <h3>⏲ Countdown Timer</h3>
+            <div class="sw-main-display" id="customTimerDisplay">00:00:00</div>
+            <div class="sw-circles">
+                <div class="sw-circle" id="tmHrCircle">
+                    <span class="val" id="tmHr">00</span>
+                    <span class="lbl">hr</span>
+                </div>
+                <div class="sw-circle" id="tmMinCircle">
+                    <span class="val" id="tmMin">00</span>
+                    <span class="lbl">min</span>
+                </div>
+                <div class="sw-circle" id="tmSecCircle">
+                    <span class="val" id="tmSec">00</span>
+                    <span class="lbl">sec</span>
+                </div>
+            </div>
+            <div class="timer-input-row">
+                <input type="number" id="tmHrInput" placeholder="hr" min="0" value="0">
+                <input type="number" id="tmMinInput" placeholder="min" min="0" value="3">
+                <input type="number" id="tmSecInput" placeholder="sec" min="0" value="0">
+            </div>
+            <div class="sw-btns">
+                <button class="btn-timer" onclick="startTimer()">▶ Start Timer</button>
+                <button class="btn-reset" onclick="resetTimer()">↺ Reset</button>
+            </div>
+            <div id="customTimer"></div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // ================= DATA =================
+            const routines = {
+                science: [
+                    { date: "2026-04-27", sub: "English", emoji: "📖", bsDate: "Baisakh 14, 2083" },
+                    { date: "2026-04-28", sub: "Nepali", emoji: "📝", bsDate: "Baisakh 15, 2083" },
+                    { date: "2026-04-29", sub: "Holiday – Learn & Revise", emoji: "🏖️", holiday: true, bsDate: "Baisakh 16, 2083" },
+                    { date: "2026-04-30", sub: "Math", emoji: "🔢", bsDate: "Baisakh 17, 2083" },
+                    { date: "2026-05-01", sub: "Holiday – Learn & Revise", emoji: "🏖️", holiday: true, bsDate: "Baisakh 18, 2083" },
+                    { date: "2026-05-02", sub: "Holiday – Learn & Revise", emoji: "🏖️", holiday: true, bsDate: "Baisakh 19, 2083" },
+                    { date: "2026-05-03", sub: "Holiday – Learn & Revise", emoji: "🏖️", holiday: true, bsDate: "Baisakh 20, 2083" },
+                    { date: "2026-05-04", sub: "Physics", emoji: "⚛️", bsDate: "Baisakh 21, 2083" },
+                    { date: "2026-05-05", sub: "Holiday – Learn & Revise", emoji: "🏖️", holiday: true, bsDate: "Baisakh 22, 2083" },
+                    { date: "2026-05-06", sub: "Chemistry", emoji: "🧪", bsDate: "Baisakh 23, 2083" },
+                    { date: "2026-05-07", sub: "Holiday – Learn & Revise", emoji: "🏖️", holiday: true, bsDate: "Baisakh 24, 2083" },
+                    { date: "2026-05-08", sub: "Biology", emoji: "🧬", bsDate: "Baisakh 25, 2083" },
+                    { date: "2026-05-09", sub: "Holiday – Learn & Revise", emoji: "🏖️", holiday: true, bsDate: "Baisakh 26, 2083" },
+                    { date: "2026-05-10", sub: "Computer", emoji: "💻", bsDate: "Baisakh 27, 2083" },
+                ],
+                management: [
+                    { date: "2026-04-27", sub: "English", emoji: "📖", bsDate: "Baisakh 14, 2083" },
+                    { date: "2026-04-28", sub: "Nepali", emoji: "📝", bsDate: "Baisakh 15, 2083" },
+                    { date: "2026-04-29", sub: "Holiday – Learn & Revise", emoji: "🏖️", holiday: true, bsDate: "Baisakh 16, 2083" },
+                    { date: "2026-04-30", sub: "Math / Social", emoji: "🔢", bsDate: "Baisakh 17, 2083" },
+                    { date: "2026-05-01", sub: "Holiday – Learn & Revise", emoji: "🏖️", holiday: true, bsDate: "Baisakh 18, 2083" },
+                    { date: "2026-05-02", sub: "Holiday – Learn & Revise", emoji: "🏖️", holiday: true, bsDate: "Baisakh 19, 2083" },
+                    { date: "2026-05-03", sub: "Account", emoji: "📊", bsDate: "Baisakh 20, 2083" },
+                    { date: "2026-05-04", sub: "Holiday – Learn & Revise", emoji: "🏖️", holiday: true, bsDate: "Baisakh 21, 2083" },
+                    { date: "2026-05-05", sub: "Economics", emoji: "📈", bsDate: "Baisakh 22, 2083" },
+                    { date: "2026-05-06", sub: "Holiday – Learn & Revise", emoji: "🏖️", holiday: true, bsDate: "Baisakh 23, 2083" },
+                    { date: "2026-05-07", sub: "Business Math", emoji: "🧮", bsDate: "Baisakh 24, 2083" },
+                    { date: "2026-05-08", sub: "Business", emoji: "🏢", bsDate: "Baisakh 25, 2083" },
+                    { date: "2026-05-09", sub: "Holiday – Learn & Revise", emoji: "🏖️", holiday: true, bsDate: "Baisakh 26, 2083" },
+                    { date: "2026-05-10", sub: "Computer", emoji: "💻", bsDate: "Baisakh 27, 2083" },
+                ],
+                law: [
+                    { date: "2026-04-27", sub: "English", emoji: "📖", bsDate: "Baisakh 14, 2083" },
+                    { date: "2026-04-28", sub: "Nepali", emoji: "📝", bsDate: "Baisakh 15, 2083" },
+                    { date: "2026-04-29", sub: "Holiday – Learn & Revise", emoji: "🏖️", holiday: true, bsDate: "Baisakh 16, 2083" },
+                    { date: "2026-04-30", sub: "Social", emoji: "👥", bsDate: "Baisakh 17, 2083" },
+                    { date: "2026-05-01", sub: "Holiday – Learn & Revise", emoji: "🏖️", holiday: true, bsDate: "Baisakh 18, 2083" },
+                    { date: "2026-05-02", sub: "Holiday – Learn & Revise", emoji: "🏖️", holiday: true, bsDate: "Baisakh 19, 2083" },
+                    { date: "2026-05-03", sub: "Holiday – Learn & Revise", emoji: "🏖️", holiday: true, bsDate: "Baisakh 20, 2083" },
+                    { date: "2026-05-04", sub: "Legal System", emoji: "⚖️", bsDate: "Baisakh 21, 2083" },
+                    { date: "2026-05-05", sub: "Civil & C. Law", emoji: "📜", bsDate: "Baisakh 22, 2083" },
+                    { date: "2026-05-06", sub: "Holiday – Learn & Revise", emoji: "🏖️", holiday: true, bsDate: "Baisakh 23, 2083" },
+                    { date: "2026-05-07", sub: "Holiday – Learn & Revise", emoji: "🏖️", holiday: true, bsDate: "Baisakh 24, 2083" },
+                    { date: "2026-05-08", sub: "Legal Drafting", emoji: "📝", bsDate: "Baisakh 25, 2083" },
+                    { date: "2026-05-09", sub: "Holiday – Learn & Revise", emoji: "🏖️", holiday: true, bsDate: "Baisakh 26, 2083" },
+                    { date: "2026-05-10", sub: "NEB", emoji: "🏛️", bsDate: "Baisakh 27, 2083" },
+                ],
+                education: [
+                    { date: "2026-04-27", sub: "English", emoji: "📖", bsDate: "Baisakh 14, 2083" },
+                    { date: "2026-04-28", sub: "Nepali", emoji: "📝", bsDate: "Baisakh 15, 2083" },
+                    { date: "2026-04-29", sub: "Holiday – Learn & Revise", emoji: "🏖️", holiday: true, bsDate: "Baisakh 16, 2083" },
+                    { date: "2026-04-30", sub: "Social", emoji: "👥", bsDate: "Baisakh 17, 2083" },
+                    { date: "2026-05-01", sub: "Holiday – Learn & Revise", emoji: "🏖️", holiday: true, bsDate: "Baisakh 18, 2083" },
+                    { date: "2026-05-02", sub: "Holiday – Learn & Revise", emoji: "🏖️", holiday: true, bsDate: "Baisakh 19, 2083" },
+                    { date: "2026-05-03", sub: "Holiday – Learn & Revise", emoji: "🏖️", holiday: true, bsDate: "Baisakh 20, 2083" },
+                    { date: "2026-05-04", sub: "Pedagogy", emoji: "📚", bsDate: "Baisakh 21, 2083" },
+                    { date: "2026-05-05", sub: "Eco / Opt Nepali", emoji: "🌱", bsDate: "Baisakh 22, 2083" },
+                    { date: "2026-05-06", sub: "Opt English", emoji: "📖", bsDate: "Baisakh 23, 2083" },
+                    { date: "2026-05-07", sub: "Maths / Health", emoji: "🧮", bsDate: "Baisakh 24, 2083" },
+                    { date: "2026-05-08", sub: "Education / Pop.", emoji: "🎓", bsDate: "Baisakh 25, 2083" },
+                    { date: "2026-05-09", sub: "Holiday – Learn & Revise", emoji: "🏖️", holiday: true, bsDate: "Baisakh 26, 2083" },
+                    { date: "2026-05-10", sub: "Holiday – Learn & Revise", emoji: "🏖️", holiday: true, bsDate: "Baisakh 27, 2083" },
+                ]
+            };
+
+            let current = "science";
+
+            // ================= RENDER =================
+            window.render = function() {
+                const list = routines[current];
+                const now = new Date();
+
+                let completed = 0;
+                let nextFound = false;
+
+                const container = document.getElementById("content");
+                container.innerHTML = "";
+
+                list.forEach((item, index) => {
+                    const exam = new Date(item.date + "T08:00");
+                    const dayName = exam.toLocaleDateString('en-US', { weekday: 'long' });
+                    const serial = index + 1;
+
+                    let cls = "";
+                    if (item.holiday) {
+                        cls = "holiday-card";
+                    } else if (exam < now) {
+                        completed++;
+                        cls = "past";
+                    }
+
+                    if (!item.holiday && !nextFound && exam > now) {
+                        cls = "next";
+                        nextFound = true;
+                    }
+                    if (!item.holiday && exam.toDateString() === now.toDateString()) {
+                        cls = "today";
+                    }
+
+                    const holidayBadgeHTML = item.holiday ?
+                        '<span class="holiday-badge">📅 Holiday</span>' :
+                        '';
+
+                    container.innerHTML += `
+                    <div class="card ${cls}">
+                        <span class="serial">${serial}</span>
+                        <span class="emoji">${item.emoji}</span>
+                        <span>${item.sub}</span>
+                        <div class="date-day">
+                            <div>${item.bsDate}</div>
+                            <div class="day">${dayName}</div>
+                        </div>
+                        ${holidayBadgeHTML}
+                    </div>`;
+                });
+
+                const examCount = list.filter(i => !i.holiday).length;
+                const completedExams = list.filter(i => !i.holiday && new Date(i.date + "T08:00") < now).length;
+                document.getElementById("progressBar").style.width =
+                    (examCount > 0 ? (completedExams / examCount * 100) : 0) + "%";
+            };
+
+            // ================= COUNTDOWN TIMER & RED BAR =================
+            function updateCountdownAndTimer() {
+                const list = routines[current];
+                const now = new Date();
+                const countdownBar = document.getElementById("countdownBar");
+                const timerText = document.getElementById("timerText");
+
+                let nextExamItem = null;
+                for (let item of list) {
+                    if (item.holiday) continue;
+                    const exam = new Date(item.date + "T08:00");
+                    if (exam > now) {
+                        nextExamItem = { item, exam };
+                        break;
+                    }
+                }
+
+                if (!nextExamItem) {
+                    timerText.innerHTML = "🎉 All exams completed!";
+                    countdownBar.style.width = "0%";
+                    countdownBar.classList.remove("urgent");
+                    return;
+                }
+
+                const nextExam = nextExamItem.exam;
+                const diff = nextExam - now;
+                const d = Math.floor(diff / 86400000);
+                const h = Math.floor(diff / 3600000) % 24;
+                const m = Math.floor(diff / 60000) % 60;
+                const s = Math.floor(diff / 1000) % 60;
+                timerText.innerHTML = `${nextExamItem.item.sub} in <b>${d}d ${h}h ${m}m ${s}s</b>`;
+
+                let prevExamTime = null;
+                for (let i = list.length - 1; i >= 0; i--) {
+                    const item = list[i];
+                    if (item.holiday) continue;
+                    const examTime = new Date(item.date + "T08:00");
+                    if (examTime < nextExam) {
+                        prevExamTime = examTime;
+                        break;
+                    }
+                }
+                if (!prevExamTime) prevExamTime = now;
+
+                const totalInterval = nextExam - prevExamTime;
+                const elapsed = now - prevExamTime;
+                let percentLeft = 100;
+                if (totalInterval > 0) {
+                    percentLeft = Math.max(0, Math.min(100, ((totalInterval - elapsed) / totalInterval) * 100));
+                }
+
+                countdownBar.style.width = percentLeft + "%";
+                if (percentLeft < 15) {
+                    countdownBar.classList.add("urgent");
+                } else {
+                    countdownBar.classList.remove("urgent");
+                }
+            }
+
+            setInterval(updateCountdownAndTimer, 1000);
+            updateCountdownAndTimer();
+
+            // ================= TAB =================
+            window.switchTab = function(tab, e) {
+                current = tab;
+                document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+                e.target.classList.add("active");
+                render();
+                updateCountdownAndTimer();
+            };
+
+            // ================= STOPWATCH =================
+            let swInterval = null;
+            let swTime = 0;
+            window.startSW = function() {
+                if (swInterval) return;
+                swInterval = setInterval(() => {
+                    swTime++;
+                    displaySW();
+                    updateSWCircles();
+                }, 10);
+            };
+            window.pauseSW = function() {
+                clearInterval(swInterval);
+                swInterval = null;
+                document.querySelectorAll('#stopwatchPanel .sw-circle').forEach(c => c.classList.remove('active-circle'));
+            };
+            window.resetSW = function() {
+                pauseSW();
+                swTime = 0;
+                displaySW();
+                updateSWCircles();
+            };
+
+            function displaySW() {
+                const totalSec = Math.floor(swTime / 100);
+                const centiseconds = swTime % 100;
+                const hrs = Math.floor(totalSec / 3600);
+                const mins = Math.floor((totalSec % 3600) / 60);
+                const secs = totalSec % 60;
+                const hStr = String(hrs).padStart(2, '0');
+                const mStr = String(mins).padStart(2, '0');
+                const sStr = String(secs).padStart(2, '0');
+                const csStr = String(centiseconds).padStart(2, '0');
+                document.getElementById("swDisplay").innerText = `${hStr}:${mStr}:${sStr}.${csStr}`;
+                document.getElementById("swHr").innerText = hStr;
+                document.getElementById("swMin").innerText = mStr;
+                document.getElementById("swSec").innerText = sStr;
+            }
+
+            function updateSWCircles() {
+                const totalSec = Math.floor(swTime / 100);
+                const hrs = Math.floor(totalSec / 3600);
+                const mins = Math.floor((totalSec % 3600) / 60);
+                const secs = totalSec % 60;
+                const hrCircle = document.getElementById("swHrCircle");
+                const minCircle = document.getElementById("swMinCircle");
+                const secCircle = document.getElementById("swSecCircle");
+                [hrCircle, minCircle, secCircle].forEach(c => c.classList.remove('active-circle'));
+                if (swInterval) {
+                    if (hrs > 0) hrCircle.classList.add('active-circle');
+                    else if (mins > 0) minCircle.classList.add('active-circle');
+                    else secCircle.classList.add('active-circle');
+                }
+            }
+
+            // ================= CUSTOM COUNTDOWN TIMER =================
+            let timerInt = null;
+            let timerRemaining = 0;
+            window.startTimer = function() {
+                const hrInput = parseInt(document.getElementById("tmHrInput").value) || 0;
+                const minInput = parseInt(document.getElementById("tmMinInput").value) || 0;
+                const secInput = parseInt(document.getElementById("tmSecInput").value) || 0;
+                const totalSec = hrInput * 3600 + minInput * 60 + secInput;
+                if (totalSec <= 0) {
+                    alert("⚠️ Please set a time greater than zero!");
+                    return;
+                }
+                clearInterval(timerInt);
+                timerRemaining = totalSec;
+                displayTimerRemaining();
+                updateTimerCircles();
+                timerInt = setInterval(() => {
+                    timerRemaining--;
+                    if (timerRemaining <= 0) {
+                        clearInterval(timerInt);
+                        timerInt = null;
+                        timerRemaining = 0;
+                        displayTimerRemaining();
+                        updateTimerCircles();
+                        document.querySelectorAll('#timerPanel .sw-circle').forEach(c => c.classList.remove('active-circle'));
+                        alert("⏰ Time's Up!");
+                        return;
+                    }
+                    displayTimerRemaining();
+                    updateTimerCircles();
+                }, 1000);
+            };
+            window.resetTimer = function() {
+                clearInterval(timerInt);
+                timerInt = null;
+                timerRemaining = 0;
+                displayTimerRemaining();
+                updateTimerCircles();
+                document.querySelectorAll('#timerPanel .sw-circle').forEach(c => c.classList.remove('active-circle'));
+                document.getElementById("customTimer").innerText = "";
+            };
+
+            function displayTimerRemaining() {
+                const hrs = Math.floor(timerRemaining / 3600);
+                const mins = Math.floor((timerRemaining % 3600) / 60);
+                const secs = timerRemaining % 60;
+                const hStr = String(hrs).padStart(2, '0');
+                const mStr = String(mins).padStart(2, '0');
+                const sStr = String(secs).padStart(2, '0');
+                document.getElementById("customTimerDisplay").innerText = `${hStr}:${mStr}:${sStr}`;
+                document.getElementById("tmHr").innerText = hStr;
+                document.getElementById("tmMin").innerText = mStr;
+                document.getElementById("tmSec").innerText = sStr;
+                if (timerRemaining > 0 && timerInt) {
+                    document.getElementById("customTimer").innerText = `${timerRemaining} sec remaining`;
+                } else if (timerRemaining === 0 && !timerInt) {
+                    document.getElementById("customTimer").innerText = "";
+                }
+            }
+
+            function updateTimerCircles() {
+                const hrs = Math.floor(timerRemaining / 3600);
+                const mins = Math.floor((timerRemaining % 3600) / 60);
+                const secs = timerRemaining % 60;
+                const hrCircle = document.getElementById("tmHrCircle");
+                const minCircle = document.getElementById("tmMinCircle");
+                const secCircle = document.getElementById("tmSecCircle");
+                [hrCircle, minCircle, secCircle].forEach(c => c.classList.remove('active-circle'));
+                if (timerInt && timerRemaining > 0) {
+                    if (hrs > 0) hrCircle.classList.add('active-circle');
+                    else if (mins > 0) minCircle.classList.add('active-circle');
+                    else secCircle.classList.add('active-circle');
+                }
+            }
+
+            // Initial render
+            render();
+            displayTimerRemaining();
+        })();
+    </script>
+</body>
+</html>
